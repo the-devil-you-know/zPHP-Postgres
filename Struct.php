@@ -1,19 +1,14 @@
 <?
-namespace ZLibs\Postgres;
+declare(strict_types = 1);
+
+namespace zPHP\Postgres;
 
 class Struct {
 
-	/**
-	 * Convert php array to pg array
-	 *
-	 * @param array $_array
-	 * @param bool  $_isNull
-	 * @return string
-	 */
-	static function arrayEncode ($_array) {
-		settype($_array, 'array');
+	static function arrayEncode ($array) : string {
+		settype($array, 'array');
 		$result = [];
-		foreach ($_array as $t) {
+		foreach ($array as $t) {
 			if (is_array($t))
 				$result[] = self::arrayEncode($t);
 			else {
@@ -26,36 +21,18 @@ class Struct {
 		return '{' . implode(',', $result) . '}';
 	}
 
-	/**
-	 * Convert pg array to php array
-	 *
-	 * @param string $_str
-	 * @return array
-	 */
-	static function arrayDecode ($_str) {
-		$r = trim($_str, '{}');
+	static function arrayDecode (string $str) : array {
+		$r = trim($str, '{}');
 		return $r ? str_getcsv($r) : [];
 	}
 
-	/**
-	 * Convert pg range to php array
-	 *
-	 * @param int $_from
-	 * @param int $_to
-	 * @return string [from,to]
-	 */
-	static function rangeEncode ($_from, $_to) {
-		return '[' . $_from . ',' . $_to . ']';
+	static function rangeEncode (int $from, int $to) : string {
+		return '[' . $from . ',' . $to . ']';
 	}
 
-	/**
-	 * Convert pg range to php array
-	 *
-	 * @param string $_str
-	 * @return array|null [int `from`, int `to`]
-	 */
-	static function rangeDecode ($_str) {
-		if (!preg_match('/^(.)(\d+),(\d+)(.)$/', $_str, $m))
+	/** @return array|null */
+	static function rangeDecode (string $str) {
+		if (!preg_match('/^(.)(\d+),(\d+)(.)$/', $str, $m))
 			return NULL;
 
 		return [

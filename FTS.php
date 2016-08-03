@@ -1,19 +1,13 @@
 <?
-namespace ZLibs\Postgres;
+declare(strict_types = 1);
+
+namespace zPHP\Postgres;
 
 class FTS {
 
-	/**
-	 * Prep string for full text search
-	 *
-	 * @param string $_str
-	 * @param string $_delimiter
-	 * @return string
-	 */
-	static function prepStr ($_str, $_delimiter = '|') {
-		$str  = preg_replace('/[^a-zа-яё0-9\s\-]/ui', '', trim($_str));
+	static function prepStr (string $str, string $delimiter = '|') : string {
+		$str  = preg_replace('/[^a-zа-яё0-9\s\-]/ui', '', trim($str));
 		$aSub = preg_split('/\s+/', $str);
-		return implode($_delimiter, $aSub);
+		return implode($delimiter, $aSub);
 	}
-
 }
