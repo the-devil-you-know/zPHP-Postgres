@@ -30,8 +30,7 @@ class Struct {
 		return '[' . $from . ',' . $to . ']';
 	}
 
-	/** @return array|null */
-	static function rangeDecode (string $str) {
+	static function rangeDecode (string $str) : ? array {
 		if (!preg_match('/^(.)(\d+),(\d+)(.)$/', $str, $m))
 			return NULL;
 
